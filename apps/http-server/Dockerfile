@@ -16,7 +16,7 @@ WORKDIR /app
 # Enable Corepack and install Yarn (modern way)
 RUN corepack enable
 # Copy pruned package manager file
-COPY --from=turbo-prune /app/out/json/ 
+COPY --from=turbo-prune /app/out/json/ .
 COPY --from=turbo-prune /app/out/yarn.lock ./yarn.lock
 
 # Install only production dependencies
