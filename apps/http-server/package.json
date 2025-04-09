@@ -1,0 +1,26 @@
+{
+  "name": "http-server",
+  "version": "1.0.0",
+  "main": "dist/index.js",
+  "scripts": {
+    "build":"tsc -b",
+    "start": "yarn build && node dist/index.js",
+    "dev": "yarn build && yarn start",
+    "watch": "tsc -b --watch"
+  },
+  "devDependencies": {
+    "@repo/postgres": "*",
+    "@repo/mongo": "*",
+    "@repo/utils": "*",
+    "turbo": "^2.4.4"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "dependencies": {
+    "@types/express": "^5.0.1",
+    "dotenv": "^16.4.7",
+    "express": "^5.1.0"
+  }
+}
