@@ -1,0 +1,9 @@
+node_modules
+dist
+.yarn
+.cache
+.git
+Dockerfile
+tsconfig.tsbuildinfo
+.vscode
+*.tsbuildinfo

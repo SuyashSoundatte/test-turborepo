@@ -31,6 +31,6 @@ const ConnectDB = async () => {
   }
 };
 
-ConnectDB();
+// ConnectDB();
 
 export { pool, client, ConnectDB };

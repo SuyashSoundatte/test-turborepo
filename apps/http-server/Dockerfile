@@ -1,42 +1,20 @@
-# Stage 1: Prune with Turbo
-
-FROM node:lts AS turbo-prune
-
-WORKDIR /app
-
-COPY . .
-
-RUN npx turbo prune --filter=http-server --docker
-
-# Stage 2: installer and building 
-FROM node:lts AS installer
+# for dev
+FROM node:lts
 
 WORKDIR /app
 
-# Enable Corepack and install Yarn (modern way)
-RUN corepack enable
-# Copy pruned package manager file
-COPY --from=turbo-prune /app/out/json/ .
-COPY --from=turbo-prune /app/out/yarn.lock ./yarn.lock
+COPY package.json yarn.lock turbo.json ./
+COPY /packages/tsconfig ./packages/tsconfig/
 
-# Install only production dependencies
 RUN yarn install --frozen-lockfile
 
-# Copy the source code after install for better caching
-COPY --from=turbo-prune /app/out/full/ .
-COPY turbo.json turbo.json
+COPY /packages/mongodb ./packages/mongodb/
+COPY /packages/postgres ./packages/postgres/
+COPY /packages/utils ./packages/utils/
+COPY /apps/http-server ./apps/http-server/
 
-# Build only the target app and its deps
-RUN yarn turbo run build --filter=apps/http-server...
+RUN yarn install
 
-# Stage 3: Runtime
-FROM node:lts AS runner
+EXPOSE 3001
 
-WORKDIR /app
-
-COPY --from=installer /app .
-
-WORKDIR /app/apps/http-server
-
-EXPOSE 3000
-CMD ["node", "dist/index.js"]    
+CMD [ "yarn", "dev" ]

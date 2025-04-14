@@ -8,13 +8,11 @@ COPY /packages/tsconfig ./packages/tsconfig/
 
 RUN yarn install --frozen-lockfile
 
-COPY /packages/mongodb ./packages/mongodb/
 COPY /packages/postgres ./packages/postgres/
-COPY /packages/utils ./packages/utils/
-COPY /apps/http-server ./apps/http-server/
+COPY /apps/ws-server ./apps/ws-server/
 
 RUN yarn install
 
-EXPOSE 3000
+EXPOSE 3002
 
 CMD [ "yarn", "dev" ]
